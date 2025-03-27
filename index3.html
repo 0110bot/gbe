@@ -19,14 +19,25 @@
       position: fixed;
       top: 0;
       width: 100%;
-      padding: 15px;
+      padding: 10px 15px;
       background-color: #111;
       color: white;
       text-align: center;
       z-index: 1000;
       font-size: 1rem;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-      line-height: 1.6;
+      line-height: 1.4;
+    }
+
+    #scrollPrompt {
+      transition: opacity 0.6s ease;
+    }
+
+    #scrollPrompt.fade-out {
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
     }
 
     #scrollToStory {
@@ -43,7 +54,8 @@
     }
 
     #authorName:hover::after {
-      content: attr(data-email);
+      content: attr(data-email) "\a(click to copy)";
+      white-space: pre;
       position: absolute;
       left: 50%;
       top: 120%;
@@ -52,9 +64,10 @@
       color: #fff;
       padding: 6px 10px;
       border-radius: 5px;
-      white-space: nowrap;
       z-index: 1001;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      line-height: 1.2;
+      text-align: center;
     }
 
     section {
@@ -163,7 +176,7 @@
 <body>
 
   <header>
-    <p>
+    <p id="scrollPrompt">
       Scroll down or <a href="#" id="scrollToStory">Click Here</a> to read the story.
     </p>
     <p>
@@ -198,8 +211,8 @@
     const cover2 = document.getElementById('cover2');
     const pdfWrapper = document.getElementById('pdfWrapper');
     const pdfSection = document.getElementById('pdfSection');
+    const scrollPrompt = document.getElementById('scrollPrompt');
 
-    // Flyaway scroll logic
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
@@ -217,14 +230,16 @@
       }
     });
 
-    // Auto scroll + fade-in when viewer enters
+    // Observer: fade in PDF + scroll + fade out prompt
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           pdfWrapper.classList.add('reveal');
+          scrollPrompt.classList.add('fade-out');
           setTimeout(() => {
             pdfSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }, 500);
+          observer.disconnect(); // stop after triggered once
         }
       });
     }, {
@@ -233,13 +248,13 @@
 
     observer.observe(pdfWrapper);
 
-    // Header button scroll
+    // Button scroll
     document.getElementById('scrollToStory').addEventListener('click', e => {
       e.preventDefault();
       pdfSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
-    // Email copy to clipboard
+    // Email click-to-copy
     const authorName = document.getElementById('authorName');
     const emailAddress = authorName.getAttribute('data-email');
 
