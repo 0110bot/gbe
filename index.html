@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gray Blue Eye</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 15px;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      z-index: 1000;
+      font-size: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    section {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .cover-section img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .doc-section {
+      background-color: #000;
+      position: relative;
+      z-index: 1;
+    }
+
+    .doc-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-image: url('https://i.imgur.com/6qJMqmS.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      opacity: 0.5;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .doc-container {
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 0 20px; /* Leave room for header */
+      box-sizing: border-box;
+    }
+
+    iframe {
+      width: 90%;
+      max-width: 1000px;
+      height: 90%;
+      border: none;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      background: white;
+    }
+
+    @media (max-width: 768px) {
+      iframe {
+        width: 95%;
+        height: 90%;
+      }
+
+      header {
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>📜 Scroll Down, Text Loading...</header>
+
+  <!-- Scene 1: Front Cover -->
+  <section class="cover-section">
+    <img src="https://i.imgur.com/jtuOSYT.png" alt="Front Cover" />
+  </section>
+
+  <!-- Scene 2: Back Cover -->
+  <section class="cover-section">
+    <img src="https://i.imgur.com/C0j1RFE.png" alt="Back Cover" />
+  </section>
+
+  <!-- Scene 3: Embedded Doc -->
+  <section class="doc-section">
+    <div class="doc-background"></div>
+    <div class="doc-container">
+      <iframe src="https://docs.google.com/document/d/e/2PACX-1vSPfj-kvf9ZiQ1d5WJS8_YKlzg6xFfGALqtFFhFRpizIIY6LYdQlVqn0LvvgJ6AfR3iGRJnzUQXPHAE/pub?embedded=true"></iframe>
+    </div>
+  </section>
+
+</body>
+</html>
