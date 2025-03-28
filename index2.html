@@ -90,19 +90,11 @@
     }
 
     .pdf-wrapper {
-      opacity: 0;
-      transition: opacity 1.2s ease;
       width: 100%;
-      max-width: 1000px;
+      max-width: 800px;
       height: 90vh;
       box-shadow: 0 0 20px rgba(0,0,0,0.6);
       background: #fff;
-      pointer-events: none; /* Disable scroll trap until it's revealed */
-    }
-
-    .pdf-wrapper.reveal {
-      opacity: 1;
-      pointer-events: auto;
     }
 
     iframe {
@@ -111,17 +103,11 @@
       border: none;
     }
 
-    @media (min-width: 1024px) {
-      .pdf-wrapper {
-        max-width: 750px;
-      }
-    }
-
     @media (max-width: 768px) {
       .pdf-wrapper {
         width: 100%;
-        max-width: 95vw;
         height: 90vh;
+        max-width: 95vw;
       }
 
       header {
@@ -145,14 +131,12 @@
     <img id="cover2" class="cover-image" src="https://i.imgur.com/C0j1RFE.png" alt="Back Cover" />
   </section>
 
-  <!-- Scene 3: PDF.js Viewer -->
-  <section class="doc-section" id="pdfSection">
+  <!-- Scene 3: PDF Document -->
+  <section class="doc-section">
     <div class="doc-background"></div>
     <div class="doc-container">
-      <div class="pdf-wrapper" id="pdfWrapper">
-        <iframe 
-          src="https://0110bot.github.io/gbe/web/viewer.html?file=https://0110bot.github.io/gbe/GBE.pdf">
-        </iframe>
+      <div class="pdf-wrapper">
+        <iframe src="https://0110bot.github.io/gbe/GBE.pdf" type="application/pdf"></iframe>
       </div>
     </div>
   </section>
@@ -160,8 +144,6 @@
   <script>
     const cover1 = document.getElementById('cover1');
     const cover2 = document.getElementById('cover2');
-    const pdfWrapper = document.getElementById('pdfWrapper');
-    const pdfSection = document.getElementById('pdfSection');
 
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
@@ -179,24 +161,6 @@
         cover2.classList.remove('flyaway');
       }
     });
-
-    // Fade-in and auto-scroll once back cover flies away
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          pdfWrapper.classList.add('reveal');
-
-          // Scroll so the PDF section is centered
-          setTimeout(() => {
-            pdfSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 500);
-        }
-      });
-    }, {
-      threshold: 0.3
-    });
-
-    observer.observe(pdfWrapper);
   </script>
 
 </body>
