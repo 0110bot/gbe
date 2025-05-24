@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halferth Date Converter</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        h1 { color: #5a5a5a; text-align: center; }
+        label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
+        input[type="date"], button {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        button { background-color: #5cb85c; color: white; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #4cae4c; }
+        .result { margin-top: 20px; padding: 15px; background-color: #e9e9e9; border-radius: 4px; }
+        .result p { margin: 8px 0; }
+        .result strong { color: #337ab7; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Halferth Date Converter</h1>
+        
+        <label for="earthDate">Enter Earth Date:</label>
+        <input type="date" id="earthDate">
+        
+        <button onclick="convertToHalferth()">Convert to Halferth Date</button>
+        
+        <div class="result" id="halferthResult" style="display:none;">
+            <p><strong>Halferthian Date:</strong></p>
+            <p id="hDayOfYear"></p>
+            <p id="hSeason"></p>
+            <p id="hCivicMonth"></p>
+            <p id="hDayInCivicMonth"></p>
+            <p id="hNotes"></p>
+        </div>
+        <p class="error" id="errorMessage" style="display:none;"></p>
+    </div>
+
+    <script>
+        const halferthCalendar = [
+            { startDay: 1, endDay: 35, season: "Nightfall", civicMonth: "Low Nightfall", notes: "Nightfall 1 is Polar Sunset" },
+            { startDay: 36, endDay: 70, season: "Nightfall", civicMonth: "High Nightfall" },
+            { startDay: 71, endDay: 105, season: "Long Night", civicMonth: "Low Long Night" },
+            { startDay: 106, endDay: 140, season: "Long Night", civicMonth: "High Long Night" },
+            { startDay: 141, endDay: 175, season: "Nightspring", civicMonth: "Low Nightspring" },
+            { startDay: 176, endDay: 210, season: "Nightspring", civicMonth: "High Nightspring" },
+            { startDay: 211, endDay: 245, season: "Dayspring", civicMonth: "Low Dayspring", notes: "Dayspring 1 (Day 211) is Polar Sunrise" },
+            { startDay: 246, endDay: 280, season: "Dayspring", civicMonth: "High Dayspring" },
+            { startDay: 281, endDay: 315, season: "Long Day", civicMonth: "Low Long Day" },
+            { startDay: 316, endDay: 350, season: "Long Day", civicMonth: "High Long Day" },
+            { startDay: 351, endDay: 385, season: "Dayfall", civicMonth: "Low Dayfall" },
+            { startDay: 386, endDay: 420, season: "Dayfall", civicMonth: "High Dayfall", notes: "End of Halferthian Year on Day 420" },
+        ];
+        const halferthDaysInYear = 420;
+        const earthHoursInHalferthDay = 21;
+        const earthHoursInEarthDay = 24;
+
+        function convertToHalferth() {
+            const earthDateInput = document.getElementById('earthDate').value;
+            const resultDiv = document.getElementById('halferthResult');
+            const errorMessageP = document.getElementById('errorMessage');
+
+            if (!earthDateInput) {
+                errorMessageP.textContent = "Please select an Earth date.";
+                errorMessageP.style.display = 'block';
+                resultDiv.style.display = 'none';
+                return;
+            }
+
+            errorMessageP.style.display = 'none';
+            resultDiv.style.display = 'block';
+
+            const inputEarthDate = new Date(earthDateInput + 'T00:00:00'); // Ensure parsing as local date UTC midnight
+
+            // Determine the reference March 20th for the start of the Halferthian year cycle
+            let refYear = inputEarthDate.getFullYear();
+            let halferthYearStartDate = new Date(Date.UTC(refYear, 2, 20)); // March is month 2 (0-indexed)
+
+            if (inputEarthDate.getTime() < halferthYearStartDate.getTime()) {
+                refYear -= 1;
+                halferthYearStartDate = new Date(Date.UTC(refYear, 2, 20));
+            }
+            
+            // Calculate difference in milliseconds, then convert to Earth days
+            const msInEarthDay = earthHoursInEarthDay * 60 * 60 * 1000;
+            const earthDaysSinceStart = (inputEarthDate.getTime() - halferthYearStartDate.getTime()) / msInEarthDay;
+
+            // Convert elapsed Earth days to Halferthian days
+            // Add a small epsilon to handle potential floating point inaccuracies at day boundaries
+            const halferthDayOfYearFloat = (earthDaysSinceStart * earthHoursInEarthDay / earthHoursInHalferthDay) + (1 + 1e-9) ;
+            const halferthDayOfYear = Math.floor(halferthDayOfYearFloat -1) % halferthDaysInYear + 1;
+
+
+            let currentHalferthSeason = "";
+            let currentCivicMonth = "";
+            let dayInCivicMonth = 0;
+            let notes = "";
+
+            for (const period of halferthCalendar) {
+                if (halferthDayOfYear >= period.startDay && halferthDayOfYear <= period.endDay) {
+                    currentHalferthSeason = period.season;
+                    currentCivicMonth = period.civicMonth;
+                    dayInCivicMonth = halferthDayOfYear - period.startDay + 1;
+                    if (period.notes) {
+                        if ((period.civicMonth === "Low Nightfall" && halferthDayOfYear === 1) || 
+                            (period.civicMonth === "Low Dayspring" && halferthDayOfYear === 211) ||
+                            (period.civicMonth === "High Dayfall" && halferthDayOfYear === 420)) {
+                            notes = period.notes;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            document.getElementById('hDayOfYear').textContent = `Halferthian Day of Year: ${halferthDayOfYear}`;
+            document.getElementById('hSeason').textContent = `Season: ${currentHalferthSeason}`;
+            document.getElementById('hCivicMonth').textContent = `Civic Half-Season: ${currentCivicMonth}`;
+            document.getElementById('hDayInCivicMonth').textContent = `Day in Civic Half-Season: ${dayInCivicMonth}`;
+            document.getElementById('hNotes').textContent = notes ? `Note: ${notes}` : "";
+        }
+    </script>
+</body>
+</html>
+
