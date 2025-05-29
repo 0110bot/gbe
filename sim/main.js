@@ -56,7 +56,7 @@ const sunlight = new THREE.PointLight(0xffffff, 1000, 100);
 sunlight.position.set(0, 0, 0); // center of the sun
 scene.add(sunlight);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.03);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
 scene.add(ambientLight);
 
 // === Sol South Arrow ===
