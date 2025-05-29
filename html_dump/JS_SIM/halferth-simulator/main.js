@@ -140,7 +140,7 @@ seasonalSpokeData.forEach(({ label, angle, color }) => {
 // === Halferth ===
 const planetGeometry = new THREE.SphereGeometry(2, 32, 32);
 const textureLoader = new THREE.TextureLoader();
-const halferthTexture = textureLoader.load('/textures/halferth.png');
+const halferthTexture = textureLoader.load('textures/halferth.png');
 
 // Rotate texture 90° (π/2 radians)
 halferthTexture.center.set(0.5, 0.5);
@@ -203,8 +203,8 @@ let previousTimestamp = 0;
 
 // === Moon Parameters ===
 const moonTextureLoader = new THREE.TextureLoader();
-const motherTexture = moonTextureLoader.load('/textures/mother.png');
-const daughterTexture = moonTextureLoader.load('/textures/daughter.png');
+const motherTexture = moonTextureLoader.load('textures/mother.png');
+const daughterTexture = moonTextureLoader.load('textures/daughter.png');
 
 const MOTHER_ORBIT_DAYS = 70;
 const DAUGHTER_ORBIT_DAYS = 35;
