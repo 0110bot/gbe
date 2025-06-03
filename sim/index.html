@@ -5,26 +5,22 @@
   <link rel="icon" href="favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Halferth Simulation</title>
-  <script type="module" crossorigin src="/gbe/sim/assets/index-BuQHoeku.js"></script>
-  <link rel="stylesheet" crossorigin href="/gbe/sim/assets/index-B4RnYmv9.css">
+  <script type="module" crossorigin src="/gbe/sim/assets/index-Bv7U4ySk.js"></script>
+  <link rel="stylesheet" crossorigin href="/gbe/sim/assets/index-DAUIsaJD.css">
 </head>
-<style>
-  #skyVisContainer canvas {
-    background-color: black; /* or dark blue, etc */
-  }
-
-  #skyVisContainer {
-    z-index: 1000; /* stay above other stuff */
-  }
-</style>
 
 <body>
-  <!-- Main orbital simulation canvas -->
+  <div id="mainLayout">
+    <!-- Main orbital simulation panel -->
+<div id="mainSimPanel">
   <canvas id="halferthCanvas"></canvas>
+  <div id="labelContainer"></div> <!-- 👈 This is new -->
+</div>
 
-  <!-- SkyVis container: canvas + flip button -->
-  <div id="skyVisContainer" style="position: absolute; bottom: 10px; right: 10px; width: 600px; height: 600px; border: 1px solid white;">
-    <canvas id="simCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
+    <!-- SkyVis viewer panel -->
+    <div id="skyVisPanel">
+      <canvas id="simCanvas"></canvas>
+    </div>
   </div>
 
   <!-- Scripts -->
