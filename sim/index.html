@@ -5,24 +5,25 @@
   <link rel="icon" href="favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Halferth Simulation</title>
-  <script type="module" crossorigin src="/gbe/sim/assets/index-DWRGi4_M.js"></script>
-  <link rel="stylesheet" crossorigin href="/gbe/sim/assets/index-DAUIsaJD.css">
+  <script type="module" crossorigin src="/gbe/sim/assets/index-CL4pE0Ku.js"></script>
+  <link rel="stylesheet" crossorigin href="/gbe/sim/assets/index-DvFFGSJ1.css">
 </head>
 
 <body>
-  <div id="mainLayout">
-    <!-- Main orbital simulation panel -->
-<div id="mainSimPanel">
-  <canvas id="halferthCanvas"></canvas>
-  <div id="labelContainer"></div> <!-- 👈 This is new -->
-</div>
-
-    <!-- SkyVis viewer panel -->
-    <div id="skyVisPanel">
-      <canvas id="simCanvas"></canvas>
-    </div>
+<div id="mainLayout">
+  <!-- Top: Main orbital simulation panel -->
+  <div id="mainSimPanel">
+    <canvas id="halferthCanvas"></canvas>
+    <div id="labelContainer"></div>
   </div>
 
+  <!-- Bottom: 2D sky phase viewer -->
+  <div id="skyVisPanel">
+    <canvas id="simCanvas"></canvas>
+  </div>
+</div>
+
   <!-- Scripts -->
+  <script src="sharedState.js"></script>
 </body>
 </html>
