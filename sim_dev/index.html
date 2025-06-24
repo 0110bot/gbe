@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halferth Simulation</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+<div id="mainLayout">
+  <!-- Top: Main orbital simulation panel -->
+  <div id="mainSimPanel">
+    <canvas id="halferthCanvas"></canvas>
+    <div id="labelContainer"></div>
+  </div>
+
+  <!-- Bottom: 2D sky phase viewer -->
+  <div id="skyVisPanel">
+    <canvas id="simCanvas"></canvas>
+  </div>
+</div>
+
+  <!-- Scripts -->
+  <script type="module" src="sharedState.js"></script>
+  <script type="module" src="main.js"></script>
+  <script type="module" src="skyVis.js"></script>
+</body>
+</html>
